@@ -4,16 +4,13 @@ const saveShapefile = (filename, path) => {
   let filePath = `./assets/shapefiles/${filename}.convexshape`;
   let shapefile = "";
 
-  let flipper =
-    filename === "rightTriangle" || filename === "trapezoid" ? 1 : -1;
-
   shapefile += `shape_type: TYPE_HULL\n`;
 
   path.segments.forEach((segment) => {
     const p = segment.point;
 
-    shapefile += `data: ${(p.x * flipper).toFixed(2)}\n`;
-    shapefile += `data: ${(p.y * flipper).toFixed(2)}\n`;
+    shapefile += `data: ${(p.x * -1).toFixed(2)}\n`;
+    shapefile += `data: ${(p.y * -1).toFixed(2)}\n`;
     shapefile += `data: ${(0).toFixed(2)}\n`;
   });
 

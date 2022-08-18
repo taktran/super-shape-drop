@@ -17,4 +17,5 @@ title = super-shape-drop
 [physics]
 gravity_y = -500.0
 scale = 0.2
+debug = 1
 
