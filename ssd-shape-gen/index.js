@@ -1,73 +1,64 @@
-const fs = require("fs");
 const paper = require("paper-jsdom-canvas");
+const saveAssets = require("./saveAssets.js");
 
-const canvas = {
-  width: 500,
-  height: 500,
-  format: "png",
+const size = {
+  width: 100,
+  height: 100,
 };
 
-let hex;
+const canvas = paper.createCanvas(size.width, size.height, "png");
 
-const setup = () => {
-  canvas.el = paper.createCanvas(canvas.width, canvas.height, canvas.format);
+paper.setup(canvas);
+paper.view.translate(size.width / 2, size.height / 2);
 
-  paper.setup(canvas.el);
+const center = new paper.Point(0, 0);
 
-  paper.view.translate(canvas.width / 2, canvas.height / 2);
+const hex = new paper.Path({
+  closed: true,
+});
 
-  canvas.center = new paper.Point(0, 0);
-};
+for (let i = 0; i < 6; i++) {
+  let p = center.clone();
 
-const draw = () => {
-  const unit = (n) => {
-    return (n * canvas.width) / 10;
-  };
+  p.x += 40;
 
-  hex = new paper.Path({
-    closed: true,
-    fillColor: "#f09",
+  p = p.rotate((360 / 6) * i, center);
+
+  hex.add(p);
+}
+
+let colors = [
+  {
+    name: "darkblue",
+    hex: "#4a407c",
+  },
+  {
+    name: "lightblue",
+    hex: "#6f88c8",
+  },
+  {
+    name: "yellow",
+    hex: "#f2ec9b",
+  },
+  {
+    name: "orange",
+    hex: "#f2bc79",
+  },
+  {
+    name: "red",
+    hex: "#f2856d",
+  },
+];
+
+colors.forEach((color) => {
+  hex.fillColor = color.hex;
+
+  saveAssets({
+    width: size.width,
+    height: size.height,
+    fileName: `hex`,
+    colorName: color.name,
+    drawItem: hex,
+    collisionPath: hex,
   });
-
-  for (let i = 0; i < 6; i++) {
-    let p = canvas.center.clone();
-
-    p.x += unit(3);
-
-    p = p.rotate((360 / 6) * i, canvas.center);
-
-    hex.add(p);
-  }
-};
-
-const saveImage = (filePath) => {
-  paper.view.update();
-
-  fs.writeFileSync(filePath, canvas.el.toBuffer());
-
-  console.log(`${filePath} saved!`);
-};
-
-const saveShapeFile = (filePath, path) => {
-  let content = "";
-
-  content += `shape_type: TYPE_HULL\n`;
-
-  path.segments.forEach((segment) => {
-    const p = segment.point;
-
-    content += `data: ${p.x.toFixed(2)}\n`;
-    content += `data: ${p.y.toFixed(2)}\n`;
-    content += `data: ${(0).toFixed(2)}\n`;
-  });
-
-  fs.writeFileSync(filePath, content);
-
-  console.log(`${filePath} saved!`);
-};
-
-setup();
-draw();
-
-saveImage("./assets/images/hex.png");
-saveShapeFile("./assets/shapefiles/hex.convexshape", hex);
+});
