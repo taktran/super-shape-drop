@@ -7,6 +7,8 @@ const canvas = {
   format: "png",
 };
 
+let hex;
+
 const setup = () => {
   canvas.el = paper.createCanvas(canvas.width, canvas.height, canvas.format);
 
@@ -22,7 +24,7 @@ const draw = () => {
     return (n * canvas.width) / 10;
   };
 
-  const hex = new paper.Path({
+  hex = new paper.Path({
     closed: true,
     fillColor: "#f09",
   });
@@ -38,7 +40,7 @@ const draw = () => {
   }
 };
 
-const saveFile = (filePath) => {
+const saveImage = (filePath) => {
   paper.view.update();
 
   fs.writeFileSync(filePath, canvas.el.toBuffer());
@@ -46,6 +48,26 @@ const saveFile = (filePath) => {
   console.log(`${filePath} saved!`);
 };
 
+const saveShapeFile = (filePath, path) => {
+  let content = "";
+
+  content += `shape_type: TYPE_HULL\n`;
+
+  path.segments.forEach((segment) => {
+    const p = segment.point;
+
+    content += `data: ${p.x.toFixed(2)}\n`;
+    content += `data: ${p.y.toFixed(2)}\n`;
+    content += `data: ${(0).toFixed(2)}\n`;
+  });
+
+  fs.writeFileSync(filePath, content);
+
+  console.log(`${filePath} saved!`);
+};
+
 setup();
 draw();
-saveFile("./assets/images/hex.png");
+
+saveImage("./assets/images/hex.png");
+saveShapeFile("./assets/shapefiles/hex.convexshape", hex);
