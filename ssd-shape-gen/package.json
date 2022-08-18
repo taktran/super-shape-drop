@@ -1,0 +1,5 @@
+{
+  "devDependencies": {
+    "paper-jsdom-canvas": "^0.12.15"
+  }
+}
