@@ -138,8 +138,8 @@ const getDiamond = () => {
 };
 
 const getArrow = () => {
-  const r1 = 25;
-  const r2 = 50;
+  const r1 = 20;
+  const r2 = 45;
 
   return new paper.Path({
     segments: [
@@ -170,6 +170,39 @@ const getTrapezoid = () => {
   });
 };
 
+const getSemiCircle = () => {
+  const semiCircle = new paper.Path({
+    closed: true,
+  });
+
+  for (let i = 0; i <= 10; i++) {
+    let p = center.clone();
+
+    p.x += 50;
+
+    p = p.rotate((180 / 10) * i, center);
+
+    semiCircle.add(p);
+  }
+
+  return semiCircle;
+};
+
+const getFork = () => {
+  const r1 = 38;
+
+  return new paper.Path({
+    segments: [
+      [r1, -r1],
+      [r1, r1],
+      [0, 0],
+      [-r1, r1],
+      [-r1, -r1],
+    ],
+    closed: true,
+  });
+};
+
 shapes.circle = getCircle();
 shapes.triangle = getTriangle();
 shapes.square = getSquare();
@@ -180,5 +213,7 @@ shapes.rightTriangle = getRightTriangle();
 shapes.diamond = getDiamond();
 shapes.arrow = getArrow();
 shapes.trapezoid = getTrapezoid();
+shapes.semiCircle = getSemiCircle();
+shapes.fork = getFork();
 
 module.exports = shapes;
