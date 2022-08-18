@@ -1,0 +1,5 @@
+go.property("shape", hash("arrow-darkblue"))
+
+function init(self)
+	msg.post("#sprite", "play_animation", {id = self.shape})
+end

@@ -13,4 +13,42 @@ CONSTANTS.BLOCK_TYPES = {
 	hash("yellow_block")
 }
 
+CONSTANTS.SHAPE_TYPES = {
+	"arrow",
+	"circle",
+	"cross",
+	"diamond",
+	"fork",
+	"hexagon",
+	"rightTriangle",
+	"semiCircle",
+	"spike",
+	"square",
+	"trapezoid",
+	"triangle",
+}
+
+CONSTANTS.SHAPE_COLORS = {
+	"darkblue",
+	"lightblue",
+	"orange",
+	"red",
+	"yellow",
+}
+
+CONSTANTS.SHAPES = {}
+
+for _, type in pairs(CONSTANTS.SHAPE_TYPES) do
+	for _, color in pairs(CONSTANTS.SHAPE_COLORS) do
+		local key = type.."-"..color
+		local hashKey = hash(key)
+		table.insert(CONSTANTS.SHAPES, {
+			type = type,
+			color = color,
+			key = key,
+			hashKey = hashKey
+		})
+	end
+end
+	
 return CONSTANTS
