@@ -4,35 +4,37 @@ const paper = require("paper-jsdom-canvas");
 const saveShapefile = require("./saveShapefile.js");
 const saveImage = require("./saveImage.js");
 
+const shapes = require("./shapes.js");
+
 const size = {
   width: 100,
   height: 100,
 };
 
-const canvas = paper.createCanvas(size.width, size.height, "png");
+// const canvas = paper.createCanvas(size.width, size.height, "png");
 
-paper.setup(canvas);
-paper.view.translate(size.width / 2, size.height / 2);
+// paper.setup(canvas);
+// paper.view.translate(size.width / 2, size.height / 2);
 
-const center = new paper.Point(0, 0);
+// const center = new paper.Point(0, 0);
 
-const hex = new paper.Path({
-  closed: true,
-});
+// const hex = new paper.Path({
+//   closed: true,
+// });
 
-for (let i = 0; i < 6; i++) {
-  let p = center.clone();
+// for (let i = 0; i < 6; i++) {
+//   let p = center.clone();
 
-  p.x += 40;
+//   p.x += 40;
 
-  p = p.rotate((360 / 6) * i, center);
+//   p = p.rotate((360 / 6) * i, center);
 
-  hex.add(p);
-}
+//   hex.add(p);
+// }
 
-const smoothHex = hex.clone();
+// const smoothHex = hex.clone();
 
-smoothHex.smooth({ type: "geometric", factor: 0.125 });
+// smoothHex.smooth({ type: "geometric", factor: 0.125 });
 
 let colors = [
   {
@@ -57,16 +59,18 @@ let colors = [
   },
 ];
 
-colors.forEach((color) => {
-  smoothHex.fillColor = color.hex;
+Object.keys(shapes).forEach((name) => {
+  saveShapefile(name, shapes[name]);
 
-  saveImage({
-    width: size.width,
-    height: size.height,
-    fileName: "hex",
-    colorName: color.name,
-    drawItem: smoothHex,
+  colors.forEach((color) => {
+    shapes[name].fillColor = color.hex;
+
+    saveImage({
+      width: size.width,
+      height: size.height,
+      fileName: name,
+      colorName: color.name,
+      drawItem: shapes[name],
+    });
   });
-
-  saveShapefile("hex", hex);
 });
