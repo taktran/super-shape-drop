@@ -1,5 +1,8 @@
 const paper = require("paper-jsdom-canvas");
-const saveAssets = require("./saveAssets.js");
+// const saveAssets = require("./saveAssets.js");
+
+const saveShapefile = require("./saveShapefile.js");
+const saveImage = require("./saveImage.js");
 
 const size = {
   width: 100,
@@ -27,6 +30,10 @@ for (let i = 0; i < 6; i++) {
   hex.add(p);
 }
 
+const smoothHex = hex.clone();
+
+smoothHex.smooth({ type: "geometric", factor: 0.125 });
+
 let colors = [
   {
     name: "darkblue",
@@ -51,14 +58,15 @@ let colors = [
 ];
 
 colors.forEach((color) => {
-  hex.fillColor = color.hex;
+  smoothHex.fillColor = color.hex;
 
-  saveAssets({
+  saveImage({
     width: size.width,
     height: size.height,
-    fileName: `hex`,
+    fileName: "hex",
     colorName: color.name,
-    drawItem: hex,
-    collisionPath: hex,
+    drawItem: smoothHex,
   });
+
+  saveShapefile("hex", hex);
 });
