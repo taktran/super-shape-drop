@@ -10,7 +10,7 @@ const saveShapefile = (filename, path) => {
     const p = segment.point;
 
     shapefile += `data: ${p.x.toFixed(2)}\n`;
-    shapefile += `data: ${p.y.toFixed(2)}\n`;
+    shapefile += `data: ${(p.y * -1).toFixed(2)}\n`;
     shapefile += `data: ${(0).toFixed(2)}\n`;
   });
 
