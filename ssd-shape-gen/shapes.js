@@ -66,9 +66,119 @@ const getHexagon = () => {
   return hexagon;
 };
 
+const getCross = () => {
+  const r1 = 20;
+  const r2 = 20;
+
+  return new paper.Path({
+    segments: [
+      [0, -r1],
+      [r2, -r1 - r2],
+      [r1 + r2, -r2],
+      [r1, 0],
+      [r1 + r2, 0 + r2],
+      [r2, r1 + r2],
+      [0, r1],
+      [0 - r2, r1 + r2],
+      [-r1 - r2, 0 + r2],
+      [-r1, 0],
+      [-r1 - r2, 0 - r2],
+      [0 - r2, -r1 - r2],
+    ],
+    closed: true,
+  });
+};
+
+const getSpike = () => {
+  const r1 = 15;
+  const r2 = 50;
+
+  return new paper.Path({
+    segments: [
+      [r1, -r1],
+      [r2, 0],
+      [r1, r1],
+      [0, r2],
+      [-r1, r1],
+      [-r2, 0],
+      [-r1, -r1],
+      [0, -r2],
+    ],
+    closed: true,
+  });
+};
+
+const getRightTriangle = () => {
+  const r1 = 10;
+  const r2 = 50;
+
+  return new paper.Path({
+    segments: [
+      [-r2 + r1, -r2 + r1],
+      [r2 - r1, r2 - r1],
+      [-r2 + r1, r2 - r1],
+    ],
+    closed: true,
+  });
+};
+
+const getDiamond = () => {
+  const r1 = 25;
+  const r2 = 50;
+
+  return new paper.Path({
+    segments: [
+      [0, -r2],
+      [r1, 0],
+      [0, r2],
+      [-r1, 0],
+    ],
+    closed: true,
+  });
+};
+
+const getArrow = () => {
+  const r1 = 25;
+  const r2 = 50;
+
+  return new paper.Path({
+    segments: [
+      [0, -r2],
+      [r2, 0],
+      [r1, 0],
+      [r1, r2],
+      [-r1, r2],
+      [-r1, 0],
+      [-r2, 0],
+    ],
+    closed: true,
+  });
+};
+
+const getTrapezoid = () => {
+  const r1 = 25;
+  const r2 = 50;
+
+  return new paper.Path({
+    segments: [
+      [-r1, -r1],
+      [r2, -r1],
+      [r1, r1],
+      [-r2, r1],
+    ],
+    closed: true,
+  });
+};
+
 shapes.circle = getCircle();
 shapes.triangle = getTriangle();
 shapes.square = getSquare();
 shapes.hexagon = getHexagon();
+shapes.cross = getCross();
+shapes.spike = getSpike();
+shapes.rightTriangle = getRightTriangle();
+shapes.diamond = getDiamond();
+shapes.arrow = getArrow();
+shapes.trapezoid = getTrapezoid();
 
 module.exports = shapes;
